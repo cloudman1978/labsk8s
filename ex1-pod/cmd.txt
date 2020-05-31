@@ -1,0 +1,71 @@
+ubuntu@ip-172-31-42-62:~/labsk8s/ex1-pod$ kubectl apply -f pod-httpd.yml
+pod/webserver created
+
+
+ubuntu@ip-172-31-42-62:~/labsk8s/ex1-pod$ kubectl  get pods
+NAME        READY   STATUS    RESTARTS   AGE
+webserver   1/1     Running   0          12s
+
+
+
+ubuntu@ip-172-31-42-62:~/labsk8s/ex1-pod$ kubectl  describe pod webserver
+Name:         webserver
+Namespace:    default
+Priority:     0
+Node:         minikube/172.17.0.3
+Start Time:   Sun, 31 May 2020 14:52:53 +0000
+Labels:       role=webserver
+Annotations:  Status:  Running
+IP:           172.18.0.4
+IPs:
+  IP:  172.18.0.4
+Containers:
+  web:
+    Container ID:   docker://3b0b73c6ed112ef84e4fd23ed1546066dc09ca1e5ec2a0b4f92d204ed170fa13
+    Image:          httpd
+    Image ID:       docker-pullable://httpd@sha256:590382d0aca313c3b0dbfd7c45afe92c76a729cceab3c8555edc03761b2b1b93
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Sun, 31 May 2020 14:53:02 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-b7w9f (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  default-token-b7w9f:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-b7w9f
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  62s   default-scheduler  Successfully assigned default/webserver to minikube
+  Normal  Pulling    61s   kubelet, minikube  Pulling image "httpd"
+  Normal  Pulled     54s   kubelet, minikube  Successfully pulled image "httpd"
+  Normal  Created    54s   kubelet, minikube  Created container web
+  Normal  Started    53s   kubelet, minikube  Started container web
+ubuntu@ip-172-31-42-62:~/labsk8s/ex1-pod$ kubectl  describe pod webserver | grep IP
+IP:           172.18.0.4
+IPs:
+  IP:  172.18.0.4
+ubuntu@ip-172-31-42-62:~/labsk8s/ex1-pod$ kubectl  describe pod webserver | grep -w ^IP
+IP:           172.18.0.4
+ubuntu@ip-172-31-42-62:~/labsk8s/ex1-pod$ minikube ssh 
+
+
+
+docker@minikube:~$ curl http://172.18.0.4/
+<html><body><h1>It works!</h1></body></html>
+
