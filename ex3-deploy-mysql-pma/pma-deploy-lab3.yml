@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment
+  labels:
+    app: phpmyadmin-lab3
+spec:
+  selector:
+    matchLabels:
+      app: phpmyadmin-lab3
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin-lab3
+    spec:
+      containers:
+        - name: phpmyadmin
+          image: phpmyadmin/phpmyadmin
+          ports:
+            - containerPort: 80
+          env:
+            - name: PMA_HOST
+              value: 172.18.0.7   # a ne pas faire en prod
+            - name: PMA_PORT
+              value: "3306"
+            - name: MYSQL_ROOT_PASSWORD
+              value : cloudaccess

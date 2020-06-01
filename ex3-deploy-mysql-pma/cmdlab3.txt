@@ -1,0 +1,22 @@
+ubuntu@ip-172-31-42-62:~/labsk8s/ex3-deploy-mysql-pma$ kubectl apply -f mysql-deploy.yml
+deployment.apps/mysql-deploy-lab3 created
+ubuntu@ip-172-31-42-62:~/labsk8s/ex3-deploy-mysql-pma$ kubectl get pods
+NAME                                 READY   STATUS    RESTARTS   AGE
+database                             1/1     Running   0          18h
+mysql-deploy-lab3-789f86bb8d-8p5c7   1/1     Running   0          20s
+pma                                  1/1     Running   0          18h
+webserver                            1/1     Running   1          19h
+
+ubuntu@ip-172-31-42-62:~/labsk8s/ex3-deploy-mysql-pma$ kubectl describe pod mysql-deploy-lab3-789f86bb8d-8p5c7  | grep -w ^IP  | cut -f12 -d' '  
+172.18.0.7
+
+ubuntu@ip-172-31-42-62:~/labsk8s/ex3-deploy-mysql-pma$ kubectl apply -f pma-deploy-lab3.yml 
+deployment.apps/phpmyadmin-deployment created
+ubuntu@ip-172-31-42-62:~/labsk8s/ex3-deploy-mysql-pma$ kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+database                                1/1     Running   0          19h
+mysql-deploy-lab3-789f86bb8d-8p5c7      1/1     Running   0          33m
+phpmyadmin-deployment-bd8c5c4bf-rv2tj   1/1     Running   0          21m
+pma                                     1/1     Running   0          19h
+webserver                               1/1     Running   1          19h
+
