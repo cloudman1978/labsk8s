@@ -1,0 +1,25 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mysql-deploy-lab4
+spec:
+  selector:
+    matchLabels:
+      app: mysql-deploy-lab4
+  template:
+    metadata:
+      labels:
+        app: mysql-deploy-lab4
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+             secretKeyRef:
+               name: mysqlrootpassword 
+               key: password 
+        ports:
+        - containerPort: 3306
+          name: mysql

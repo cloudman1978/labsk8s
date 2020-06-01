@@ -1,0 +1,35 @@
+ubuntu@ip-172-31-42-62:~/labsk8s/ex4-lamp-svc-configmap-secrets$ kubectl apply -f configmap.yml 
+configmap/databaseparams created
+ubuntu@ip-172-31-42-62:~/labsk8s/ex4-lamp-svc-configmap-secrets$ kubectl apply -f mysql-root-sercret.yml 
+secret/mysqlrootpassword created
+ubuntu@ip-172-31-42-62:~/labsk8s/ex4-lamp-svc-configmap-secrets$ kubectl get configMap
+NAME             DATA   AGE
+databaseparams   2      37s
+ubuntu@ip-172-31-42-62:~/labsk8s/ex4-lamp-svc-configmap-secrets$ kubectl describe configMap
+Name:         databaseparams
+Namespace:    default
+Labels:       <none>
+Annotations:  
+Data
+====
+database:
+----
+cloudaccess
+user:
+----
+root
+Events:  <none>
+ubuntu@ip-172-31-42-62:~/labsk8s/ex4-lamp-svc-configmap-secrets$ kubectl get secrets
+NAME                  TYPE                                  DATA   AGE
+default-token-b7w9f   kubernetes.io/service-account-token   3      20h
+mysqlrootpassword     Opaque                                1      56s
+ubuntu@ip-172-31-42-62:~/labsk8s/ex4-lamp-svc-configmap-secrets$ kubectl describe secret mysqlrootpassword
+Name:         mysqlrootpassword
+Namespace:    default
+Labels:       <none>
+Annotations:  
+Type:         Opaque
+
+Data
+====
+password:  8 bytes

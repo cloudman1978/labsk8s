@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadminlab4
+  labels:
+    app: phpmyadminlab4 
+
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: phpmyadminlab4
+
+  template:
+    metadata:
+      labels:
+        app: phpmyadminlab4
+    spec:
+      containers:
+      - image: phpmyadmin/phpmyadmin
+        name: phpmyadmin
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+             secretKeyRef:
+               name: mysqlrootpassword 
+               key: password
+        - name: PMA_HOST
+          value: mysql
+        - name: PMA_PORT
+          value: "3306"
+        ports:
+        - containerPort: 80 
