@@ -1,0 +1,26 @@
+#Creating Backend Deployments
+kubectl apply -f mariaDBdeployment.yaml
+kubectl apply -f phpmyadmin-deployment.yaml
+
+#Creating Backend Services
+kubectl expose deployment/mariadb --name=mariadb-service 
+kubectl expose deployment phpmyadmin --name=phpmyadmin-service --port=80 --target-port=80 --type=NodePort
+
+# Activating Ingress Service
+minikube addons list
+minikube addons enable ingress
+
+
+#Creating Applicative Deployment: Nginx 3 reps + Service
+kubectl create deployment nginx --image=nginx
+kubectl expose deployment nginx --name=nginx-service --port=80 --target-port=80 --type=NodePort
+kubectl scale deployment nginx --replicas=3
+
+
+#Creating Ingress#
+kubectl apply -f ingress.yaml
+
+#Testing Ingress
+minikube ip                 # my output is 172.17.0.3
+curl 172.17.0.3/backend     #Takes to phpmyadmin
+curl 172.17.0.3/app         # Takes to Nginx
